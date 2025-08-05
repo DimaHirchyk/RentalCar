@@ -6,7 +6,6 @@ import { Autocomplete, TextField } from "@mui/material";
 import { getAllCars } from "../redux/car/gerCar";
 import { selectBrands } from "../redux/brand/selector";
 import { selectFilterBrand } from "../redux/car/selector";
-import { setFilterBrand } from "../redux/car/slice"; // додайте імпорт
 
 const Catalog = () => {
   const dispatch = useDispatch();
@@ -17,10 +16,6 @@ const Catalog = () => {
     dispatch(getBrands());
     dispatch(getAllCars());
   }, [dispatch]);
-
-  const handleBrandChange = (event, value) => {
-    dispatch(setFilterBrand(value));
-  };
 
   return (
     <section className="max-w-7xl mx-auto py-20">
@@ -35,7 +30,6 @@ const Catalog = () => {
               disablePortal
               options={listBrands}
               value={selectedBrand}
-              onChange={handleBrandChange}
               renderInput={(params) => (
                 <TextField
                   {...params}
