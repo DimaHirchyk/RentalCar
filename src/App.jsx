@@ -1,18 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./heder/header";
-import Home from "./Home/Home";
-import CatalogDetails from "./catalogDetails/catalogDetails";
-import Catalog from "./catalog/catalog";
+import { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("./Home/Home"));
+const Catalog = lazy(() => import("./catalog/catalog"));
+const CatalogDetails = lazy(() => import("./catalogDetails/catalogDetails"));
 
 function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/:id" element={<CatalogDetails />} />
-      </Routes>
+      <Suspense fallback={null}>
+        {" "}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/:id" element={<CatalogDetails />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
