@@ -5,8 +5,16 @@ const brandsSlice = createSlice({
   name: "brands",
   initialState: {
     items: [],
+    selectFilter: {
+      brand: "",
+    },
     loading: false,
-    error: null,
+    error: false,
+  },
+  reducers: {
+    setSelectBrands(state, action) {
+      state.selectFilter.brand = action.payload;
+    },
   },
 
   extraReducers: (builder) => {

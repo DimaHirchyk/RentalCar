@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import carsSlice from "./car/carsSlice";
-import brandsSlice from "./brand/slice";
+import brandsSlice from "./filter/slice";
 
 export const store = configureStore({
   reducer: {

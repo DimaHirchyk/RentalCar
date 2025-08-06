@@ -110,7 +110,7 @@ const ContactForm = () => {
             />
 
             <Field
-              className={`mt-1 block w-full h-20 rounded-md px-3.5 py-2 text-base bg-gray-100 text-gray-900 placeholder:text-gray-400 transition-colors outline-none border ${
+              className={`mt-1 block w-full h-20 rounded-md px-3.5 py-2 text-base bg-gray-100 text-gray-900 placeholder:text-gray-400 transition-colors outline-none border resize-none ${
                 errors.name && touched.name
                   ? "border-red-500 focus:outline-red-500"
                   : "border-transparent"

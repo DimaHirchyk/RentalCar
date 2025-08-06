@@ -6,6 +6,7 @@ export const getBrands = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get("/brands");
+
       return response.data;
     } catch (error) {
       console.log("❌ error from API:", error.message);

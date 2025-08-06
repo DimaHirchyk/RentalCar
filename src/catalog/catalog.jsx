@@ -1,21 +1,46 @@
 import { useDispatch, useSelector } from "react-redux";
 import CatalogList from "../catalogList/catalogList";
-import { useEffect } from "react";
-import { getBrands } from "../redux/brand/getBrand";
+import { useEffect, useState } from "react";
+import { getBrands } from "../redux/filter/getBrand";
 import { Autocomplete, TextField } from "@mui/material";
+import { selectBrands } from "../redux/filter/selector";
+import LoadMoreButton from "../components/LoadMoreButton";
+import {
+  selectCars,
+  selectCurrentPage,
+  selectTotalPages,
+} from "../redux/car/selector";
 import { getAllCars } from "../redux/car/gerCar";
-import { selectBrands } from "../redux/brand/selector";
-import { selectFilterBrand } from "../redux/car/selector";
 
 const Catalog = () => {
   const dispatch = useDispatch();
-  const listBrands = useSelector(selectBrands);
-  const selectedBrand = useSelector(selectFilterBrand);
+
+  const listAllCars = useSelector(selectCars);
+
+  const filterBrand = useSelector(selectBrands);
+  const [selectBrand, setSelectedBrand] = useState("");
+
+  const curentPage = useSelector(selectCurrentPage);
+  const totalPage = useSelector(selectTotalPages);
 
   useEffect(() => {
     dispatch(getBrands());
-    dispatch(getAllCars());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllCars({ page: 1, brand: selectBrand }));
+  }, [dispatch, selectBrand]);
+
+  const handlLoadMore = () => {
+    if (curentPage && totalPage && curentPage < totalPage) {
+      dispatch(
+        getAllCars({
+          page: curentPage + 1,
+          brand: selectBrand,
+        })
+      );
+    }
+  };
 
   return (
     <section className="max-w-7xl mx-auto py-20">
@@ -28,8 +53,9 @@ const Catalog = () => {
 
             <Autocomplete
               disablePortal
-              options={listBrands}
-              value={selectedBrand}
+              options={filterBrand}
+              value={selectBrand}
+              onChange={(_, value) => setSelectedBrand(value)}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -92,7 +118,8 @@ const Catalog = () => {
           </div>
         </div>
         <div>
-          <CatalogList />
+          <CatalogList cars={listAllCars} selectBrand={selectBrand} />
+          {curentPage < totalPage && <LoadMoreButton onClick={handlLoadMore} />}
         </div>
       </div>
     </section>

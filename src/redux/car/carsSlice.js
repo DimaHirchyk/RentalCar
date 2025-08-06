@@ -5,6 +5,9 @@ const carsSlice = createSlice({
   name: "cars",
   initialState: {
     items: [],
+    page: 1,
+    totalCars: 0,
+    totalPages: 1,
     loading: false,
     error: null,
   },
@@ -16,10 +19,17 @@ const carsSlice = createSlice({
       })
       .addCase(getAllCars.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload.cars;
-        state.totalCount = action.payload.totalCount;
-        state.currentPage = action.payload.page;
-        state.limit = action.payload.limit;
+        const { cars, page, totalCars, totalPages } = action.payload;
+        if (page === 1) {
+          state.items = cars;
+        } else {
+          const existingIds = new Set(state.items.map((car) => car.id));
+          const newUniqueCars = cars.filter((car) => !existingIds.has(car.id));
+          state.items.push(...newUniqueCars);
+        }
+        state.page = page;
+        state.totalCars = totalCars;
+        state.totalPages = totalPages;
       })
       .addCase(getAllCars.rejected, (state) => {
         state.loading = false;
