@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom";
 
-const CatalogList = ({ cars = [], selectBrand }) => {
-  const filteredCars = selectBrand
-    ? cars.filter((car) => car.brand === selectBrand)
-    : cars;
+const CatalogList = ({ cars = [] }) => {
+  // const filteredCars = selectBrand
+  //   ? cars.filter((car) => car.brand === selectBrand)
+  //   : cars;
 
   return (
     <ul className="grid grid-cols-4 gap-y-12 gap-x-8 mt-14">
-      {filteredCars.map(
+      {cars.map(
         ({
           id,
           img,

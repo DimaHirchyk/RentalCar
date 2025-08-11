@@ -3,29 +3,26 @@ import CatalogList from "../catalogList/catalogList";
 import { useEffect } from "react";
 import { getFilter } from "../redux/filter/operation";
 import LoadMoreButton from "../components/LoadMoreButton";
-import {
-  selectCars,
-  selectCurrentPage,
-  selectTotalPages,
-} from "../redux/car/selector";
 import { getAllCars } from "../redux/car/gerCar";
 import Filter from "../filter/filter";
 import {
   selectActiveFilters,
+  selectFilteredCars,
   selectFilteredPagination,
+  selectFiltersLoading,
 } from "../redux/filter/selector";
+import Loader from "../Loader/Loader";
 
 const Catalog = () => {
   const dispatch = useDispatch();
 
   const { page, totalPages } = useSelector(selectFilteredPagination);
   const filters = useSelector(selectActiveFilters);
-  const listAllCars = useSelector(selectCars);
-  const curentPage = useSelector(selectCurrentPage);
-  const totalPage = useSelector(selectTotalPages);
+  const listAllCars = useSelector(selectFilteredCars);
+  const loading = useSelector(selectFiltersLoading);
 
   useEffect(() => {
-    dispatch(getFilter());
+    dispatch(getFilter({ page: 1, limit: 12 }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -45,10 +42,12 @@ const Catalog = () => {
           <Filter />
         </div>
         <div>
-          <CatalogList cars={listAllCars} />
-          {curentPage < totalPage && (
-            <LoadMoreButton onClick={handleLoadMore} />
+          {loading && <Loader />}
+          {!loading && listAllCars.length === 0 && (
+            <p>No cars found with chosen filters</p>
           )}
+          <CatalogList cars={listAllCars} />
+          {page < totalPages && <LoadMoreButton onClick={handleLoadMore} />}
         </div>
       </div>
     </section>

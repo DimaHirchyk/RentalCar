@@ -14,9 +14,8 @@ export const getAllCars = createAsyncThunk(
       }
       const response = await axios.get("/cars", { params: { page } });
 
-      console.log(response.data);
+      // console.log(response.data);
       const { cars, totalCars, totalPages } = response.data;
-      console.log(cars);
 
       return { cars, page, totalCars, totalPages };
     } catch (error) {

@@ -9,8 +9,6 @@ import { selectFiltersValue } from "../redux/filter/selector";
 const Filter = () => {
   const dispatch = useDispatch();
   const [brands, setBrands] = useState([]); // масив брендів
-  const [selectBrand, setSelectedBrand] = useState(""); // вибраний бренд
-  const filters = useSelector(selectFiltersValue);
 
   useEffect(() => {
     async function getBrands() {
@@ -23,6 +21,13 @@ const Filter = () => {
     }
     getBrands();
   }, []);
+
+  const filters = useSelector(selectFiltersValue);
+  const [selectBrand, setSelectedBrand] = useState(filters.brand || "");
+
+  useEffect(() => {
+    setSelectedBrand(filters.brand || "");
+  }, [filters.brand]);
 
   const handleMileageChange = (e) => {
     const { name, value } = e.target;
@@ -136,9 +141,9 @@ const Filter = () => {
         />
       </div>{" "}
       <div>
-        <label label className="text-gray-400 text-xs">
+        <label className="text-gray-400 text-xs ">
           Car mileage / km
-          <div className="space-x-3">
+          <div className="space-x-3 mt-1">
             <input
               className="w-[200px] h-10 px-3 bg-gray-100 rounded-md border-none outline-none
                  hover:bg-gray-200 focus:bg-gray-100 focus:shadow-none"

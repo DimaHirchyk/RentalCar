@@ -32,13 +32,19 @@ const filterSlice = createSlice({
       state.rentalPrice = "";
       state.minMileage = "";
       state.maxMileage = "";
+      state.filteredItems.lastFilters = {
+        brand: "",
+        rentalPrice: "",
+        minMileage: "",
+        maxMileage: "",
+      };
     },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getFilter.pending, (state) => {
-        state.loading = true;
+        state.filteredItems.loading = true;
       })
       .addCase(getFilter.fulfilled, (state, action) => {
         state.filteredItems.loading = false;
@@ -77,8 +83,8 @@ const filterSlice = createSlice({
         state.filteredItems.lastFilters = currentFilters;
       })
       .addCase(getFilter.rejected, (state) => {
-        state.loading = false;
-        state.error = true;
+        state.filteredItems.loading = false;
+        state.filteredItems.error = true;
       });
   },
 });
