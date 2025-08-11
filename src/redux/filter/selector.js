@@ -1,10 +1,26 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-export const selectItems = (state) => state.brands.items;
-export const selectBrandsStatus = (state) => state.brands.status;
-export const selectBrandsError = (state) => state.brands.error;
-
-export const selectBrands = createSelector(
-  [selectItems],
-  (items) => items || []
+export const selectFiltersValue = createSelector(
+  (state) => state.filters,
+  ({ brand, rentalPrice, minMileage, maxMileage }) => ({
+    brand,
+    rentalPrice,
+    minMileage,
+    maxMileage,
+  })
 );
+export const selectFilteredCars = (state) => state.filters.filteredItems.items;
+
+export const selectFilteredPagination = createSelector(
+  (state) => state.filters.filteredItems,
+  ({ page, totalPages }) => ({ page, totalPages })
+);
+
+export const selectActiveFilters = (state) =>
+  state.filters.filteredItems.lastFilters;
+
+export const selectNoResults = (state) => state.filters.filteredItems.noResults;
+
+export const selectFiltersLoading = (state) =>
+  state.filters.filteredItems.loading;
+export const selectFiltersError = (state) => state.filters.filteredItems.error;
