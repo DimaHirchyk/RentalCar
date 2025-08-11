@@ -1,12 +1,8 @@
-import { FallingLines } from "react-loader-spinner";
-
+import { BeatLoader } from "react-spinners";
 export default function Loader() {
   return (
-    <FallingLines
-      color="blue"
-      width="100"
-      visible={true}
-      ariaLabel="falling-circles-loading"
-    />
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-300 bg-opacity-50 z-50">
+      <BeatLoader color="#1d2cf4" />
+    </div>
   );
 }
